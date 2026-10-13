@@ -347,20 +347,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
 
 .credit-c { display: inline-block; transition: transform 0.9s var(--ease); }
 
-.credit-clip {
-  display: inline-block;
-  overflow: hidden;
-  width: var(--w0, auto);
-  vertical-align: bottom;
-  transition: width 0.9s var(--ease);
-}
-
-.credit-track { display: inline-block; transition: transform 0.9s var(--ease); }
-
 @media (hover: hover) {
   .credit:hover .credit-c { transform: rotate(360deg); }
-  .credit:hover .credit-clip { width: var(--w1, auto); }
-  .credit:hover .credit-track { transform: translateX(var(--x1, 0)); }
 }
 
 /* Hanger (tablet / desktop) */

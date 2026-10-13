@@ -49,31 +49,6 @@
   }
 
   /* ------------------------------------------------------------------------
-     "© Edited by Zhanna" ↔ "© Zhanna Kinzhalinova"
-     ------------------------------------------------------------------------ */
-
-  function setupCredit() {
-    const credit = document.querySelector('.credit');
-    if (!credit) return;
-    const by = credit.querySelector('.credit-by');
-    const first = credit.querySelector('.credit-first');
-    const last = credit.querySelector('.credit-last');
-
-    const measure = () => {
-      const byW = by.getBoundingClientRect().width;
-      const firstW = first.getBoundingClientRect().width;
-      const lastW = last.getBoundingClientRect().width;
-      credit.style.setProperty('--w0', `${Math.ceil(byW + firstW)}px`);
-      credit.style.setProperty('--w1', `${Math.ceil(firstW + lastW)}px`);
-      credit.style.setProperty('--x1', `${-byW}px`);
-    };
-
-    measure();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-    addEventListener('resize', measure);
-  }
-
-  /* ------------------------------------------------------------------------
      Reveal on scroll
      ------------------------------------------------------------------------ */
 
@@ -267,7 +242,6 @@
      Boot
      ------------------------------------------------------------------------ */
 
-  setupCredit();
   setupMagnetic();
   setupPress();
   setupMenu();
