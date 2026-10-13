@@ -465,50 +465,9 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
 .js body:not(.is-ready) .hanger { opacity: 0; transform: translateY(24px); }
 
 /* --------------------------------------------------------------------------
-   Intro
-   -------------------------------------------------------------------------- */
-
-.intro-grid { display: grid; gap: 40px; }
-
-.intro-title {
-  font-size: clamp(27px, 7.4vw, 44px);
-  line-height: 1.28;
-  letter-spacing: -0.01em;
-}
-
-.intro-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 40px;
-}
-
-.intro-side p { max-width: 340px; color: var(--muted); font-size: 17px; }
-
-/* Split words reveal */
-.w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
-.w > span { display: inline-block; }
-
-.js [data-split] .w > span {
-  transform: translate3d(0, 110%, 0);
-  transition: transform 0.9s var(--ease-out) calc(var(--i) * 22ms);
-}
-
-.js [data-split].is-inview .w > span { transform: none; }
-
-.js .fade-up {
-  opacity: 0;
-  transform: translateY(1.6em);
-  transition: opacity 1s 0.25s, transform 1.2s 0.25s var(--ease-out);
-}
-
-.js .fade-up.is-inview { opacity: 1; transform: none; }
-
-/* --------------------------------------------------------------------------
    Contacts
    -------------------------------------------------------------------------- */
 
-.contacts { padding-top: 24px; }
 .contacts .eyebrow { margin-bottom: 20px; }
 
 .contact-list { border-bottom: 1px solid var(--line); }
@@ -954,16 +913,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
 
   .hero-role { right: 8vw; }
   .hero-role h2 { font-size: clamp(30px, 2.4vw, 44px); }
-
-  .intro-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
-    gap: 8vw;
-    max-width: 1440px;
-    padding: 0 10vw;
-  }
-
-  .intro-title { font-size: clamp(32px, 2.7vw, 48px); }
-  .intro-side { padding-top: 10px; }
 
   .contacts .container { padding: 0 10vw; max-width: 1600px; }
 

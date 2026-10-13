@@ -74,20 +74,6 @@
   }
 
   /* ------------------------------------------------------------------------
-     Split headings into words for the line-by-line reveal
-     ------------------------------------------------------------------------ */
-
-  function splitWords() {
-    document.querySelectorAll('[data-split]').forEach((el) => {
-      const words = el.textContent.trim().split(/\s+/);
-      el.setAttribute('aria-label', el.textContent.trim());
-      el.innerHTML = words
-        .map((w, i) => `<span class="w" aria-hidden="true"><span style="--i:${i}">${w}</span></span>`)
-        .join(' ');
-    });
-  }
-
-  /* ------------------------------------------------------------------------
      Reveal on scroll
      ------------------------------------------------------------------------ */
 
@@ -281,7 +267,6 @@
      Boot
      ------------------------------------------------------------------------ */
 
-  splitWords();
   setupCredit();
   setupMagnetic();
   setupPress();
