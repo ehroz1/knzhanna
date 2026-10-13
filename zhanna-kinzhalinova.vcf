@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Kinzhalinova;Zhanna;;;
+FN:Zhanna Kinzhalinova
+ORG:weproject.media
+TITLE:Editor
+EMAIL;TYPE=INTERNET,WORK:weproject@wecom.agency
+TEL;TYPE=CELL:+77474225683
+URL;TYPE=Telegram:https://t.me/knzhanna
+URL;TYPE=Work:https://weproject.media
+X-SOCIALPROFILE;TYPE=telegram:https://t.me/knzhanna
+NOTE:Telegram @knzhanna
+END:VCARD
