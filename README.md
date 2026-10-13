@@ -45,7 +45,7 @@ Settings → Pages → Source: *Deploy from a branch*, указать ветку
 
 ## QR-код
 
-Папка `qr/` (ведёт на https://khanna.picta.cc):
+Папка `qr/` (ведёт на https://knzhanna.picta.cc):
 
 - `qr-light.svg` / `qr-light.png` — тёмные точки на белом, синие «глазки», фото в центре. SVG — для печати в любом размере.
 - `qr-dark.svg` / `qr-dark.png` — белые точки на тёмном фоне.

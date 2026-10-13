@@ -15,7 +15,7 @@ from pathlib import Path
 import segno
 from PIL import Image, ImageDraw, ImageFont
 
-URL = sys.argv[1] if len(sys.argv) > 1 else "https://khanna.picta.cc"
+URL = sys.argv[1] if len(sys.argv) > 1 else "https://knzhanna.picta.cc"
 LABEL = URL.split("://", 1)[-1].rstrip("/")
 
 HERE = Path(__file__).resolve().parent
