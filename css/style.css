@@ -3,6 +3,35 @@
    Mobile-first. Desktop tweaks live in min-width queries.
    ========================================================================== */
 
+/* Inter Tight 400, self-hosted (SIL OFL, see assets/fonts/OFL.txt).
+   Cyrillic files are only fetched for the loader greetings. */
+@font-face {
+  font-family: "Inter Tight";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/inter-tight-latin-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter Tight";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/inter-tight-cyrillic-400.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "Inter Tight";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/inter-tight-cyrillic-ext-400.woff2") format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
 :root {
   --gray: #9c9a98;
   --dark: #1c1d20;
@@ -10,7 +39,7 @@
   --blue: #455ce9;
   --blue-dark: #334bd3;
   --white: #fff;
-  --muted: rgba(28, 29, 32, 0.5);
+  --muted: rgba(28, 29, 32, 0.64);
   --line: rgba(28, 29, 32, 0.15);
   --line-light: rgba(255, 255, 255, 0.2);
 
@@ -51,6 +80,7 @@ body {
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 img, svg { display: block; max-width: 100%; }
+picture { display: contents; }
 ul { list-style: none; margin: 0; padding: 0; }
 h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
 
@@ -65,9 +95,18 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
 
 .section { padding: 88px 0; }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .eyebrow {
   font-size: 11px;
-  font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -179,7 +218,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
   font-size: 16px;
 }
 
-.btn-pill sup { font-size: 10px; margin-left: 6px; letter-spacing: 0.04em; opacity: 0.6; }
+.btn-pill sup { font-size: 10px; margin-left: 6px; letter-spacing: 0.04em; opacity: 0.8; }
 
 .btn-pill .btn-text { transition: color 0.4s; }
 .btn-pill:active .btn-text { color: var(--white); }
@@ -194,7 +233,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
    Loader
    -------------------------------------------------------------------------- */
 
-.loader { display: none; }
+.loader,
+.js.no-loader .loader { display: none; }
 
 .js .loader {
   position: fixed;
@@ -212,12 +252,14 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
   position: relative;
   height: 1.3em;
   font-size: clamp(38px, 10vw, 64px);
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s, transform 0.8s var(--ease-out);
+  animation: loader-in 0.8s var(--ease-out) both;
 }
 
-.loader.is-started .loader-words { opacity: 1; transform: none; }
+/* Transform only: the first greeting paints immediately, before any JS. */
+@keyframes loader-in {
+  from { transform: translateY(24px); }
+}
+
 .loader.is-out .loader-words { opacity: 0; transform: translateY(-60px); transition: opacity 0.4s, transform 0.95s var(--ease); }
 
 .loader-word {
@@ -233,7 +275,9 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
   opacity: 0;
 }
 
+.loader-word:first-child,
 .loader-word.is-active { opacity: 1; }
+.loader-words.is-cycling .loader-word:not(.is-active) { opacity: 0; }
 
 .dot {
   width: 0.2em;
@@ -251,11 +295,12 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
   height: 14vh;
   border-radius: 0 0 50% 50%;
   background: var(--darker);
-  transition: height 0.95s var(--ease);
+  transform-origin: top;
+  transition: transform 0.95s var(--ease);
 }
 
 .loader.is-out { transform: translateY(-100%); }
-.loader.is-out .loader-curve { height: 0; }
+.loader.is-out .loader-curve { transform: scaleY(0); }
 
 /* --------------------------------------------------------------------------
    Hero
@@ -446,7 +491,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
 .sep { margin: 0 0.24em; }
 
 /* Intro state before the loader leaves */
-.js body:not(.is-ready) .hero-photo { opacity: 0; transform: translateY(6%) scale(1.04); }
+/* No opacity here: the photo paints under the loader so it counts as LCP. */
+.js body:not(.is-ready) .hero-photo { transform: translateY(6%) scale(1.04); }
 .js body:not(.is-ready) .hero-name-rise { transform: translateY(105%); }
 .js body:not(.is-ready) .nav,
 .js body:not(.is-ready) .hero-role,
@@ -685,7 +731,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
   padding: 72px var(--gutter) 0;
 }
 
-.footer-bottom .eyebrow { color: rgba(255, 255, 255, 0.45); margin-bottom: 6px; }
+.footer-bottom .eyebrow { color: rgba(255, 255, 255, 0.62); margin-bottom: 6px; }
 .footer-bottom p { padding: 10px 0; }
 .footer-bottom ul { display: flex; flex-wrap: wrap; margin-left: -8px; }
 
@@ -797,7 +843,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; font-weight: 400; }
   padding: calc(env(safe-area-inset-top) + 104px) 10vw calc(env(safe-area-inset-bottom) + 36px);
 }
 
-.menu .eyebrow { color: rgba(255, 255, 255, 0.45); }
+.menu .eyebrow { color: rgba(255, 255, 255, 0.62); }
 .menu-stripe { height: 1px; margin: 20px 0 28px; background: var(--line-light); }
 
 .menu-links li {

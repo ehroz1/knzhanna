@@ -19,33 +19,37 @@
     const loader = document.querySelector('.loader');
     const words = loader ? [...loader.querySelectorAll('.loader-word')] : [];
 
-    if (!loader || reduceMotion || !words.length) {
+    // Skipped for reduced motion and on repeat views within the same tab.
+    if (!loader || reduceMotion || !words.length || root.classList.contains('no-loader')) {
       if (loader) loader.remove();
       done();
       return;
     }
 
+    try { sessionStorage.setItem('seen-loader', '1'); } catch (e) { /* private mode */ }
+
+    // The first greeting is already visible via CSS; JS only flips the rest.
+    const list = words[0].parentElement;
     const show = (i) => {
       words.forEach((w, j) => w.classList.toggle('is-active', j === i));
     };
 
     let i = 0;
-    show(0);
-    requestAnimationFrame(() => loader.classList.add('is-started'));
 
     const next = () => {
       i += 1;
       if (i < words.length) {
+        if (i === 1) list.classList.add('is-cycling');
         show(i);
-        setTimeout(next, i === words.length - 1 ? 650 : 135);
+        setTimeout(next, i === words.length - 1 ? 500 : 110);
         return;
       }
       loader.classList.add('is-out');
-      setTimeout(done, 350);
+      setTimeout(done, 300);
       setTimeout(() => loader.remove(), 1100);
     };
 
-    setTimeout(next, 700);
+    setTimeout(next, 450);
   }
 
   /* ------------------------------------------------------------------------
@@ -167,6 +171,24 @@
     let mouseY = innerHeight / 2;
     let curX = mouseX;
     let curY = mouseY;
+    let drawnY = -1;      // scroll position the parallax/footer were last drawn for
+
+    // Layout is measured here, never inside the frame loop.
+    let heroH = 0;
+    let footerTop = 0;
+    let footerH = 0;
+    const measure = () => {
+      if (hero) heroH = hero.offsetHeight;
+      if (footer) {
+        footerTop = footer.getBoundingClientRect().top + scrollY;
+        footerH = footer.offsetHeight;
+      }
+      drawnY = -1;
+    };
+    measure();
+    addEventListener('resize', measure);
+    addEventListener('load', measure);
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(body);
 
     const onScroll = () => {
       const y = scrollY;
@@ -200,8 +222,8 @@
       const y = scrollY;
       const vh = innerHeight;
 
-      // Name marquee: always drifting, faster while scrolling
-      if (track && !reduceMotion) {
+      // Name marquee: always drifting, faster while scrolling (only drawn while the hero is on screen)
+      if (track && !reduceMotion && y < heroH) {
         x += dir * (0.004 + boost) * dt * 0.6;
         if (x <= -50) x += 50;
         if (x > 0) x -= 50;
@@ -210,20 +232,22 @@
       }
 
       // Hero parallax
-      if (photo && hero && y < hero.offsetHeight && !reduceMotion) {
+      if (photo && y !== drawnY && y < heroH && !reduceMotion) {
         photo.style.transform = `translate3d(0, ${y * 0.28}px, 0)`;
       }
 
       // Footer: curve flattens and content drifts in
-      if (footer && !reduceMotion) {
-        const r = footer.getBoundingClientRect();
-        if (r.top < vh && r.bottom > 0) {
-          const p = clamp((vh - r.top) / Math.min(r.height, vh), 0, 1);
+      if (footer && y !== drawnY && !reduceMotion) {
+        const top = footerTop - y;
+        if (top < vh && top + footerH > 0) {
+          const p = clamp((vh - top) / Math.min(footerH, vh), 0, 1);
           footer.style.setProperty('--curve', (1 - p).toFixed(3));
           footer.style.setProperty('--fy', `${((p - 1) * 12).toFixed(2)}vh`);
           if (footerArrow) footerArrow.style.setProperty('--arrow', `${(p * 90 - 90).toFixed(1)}deg`);
         }
       }
+
+      drawnY = y;
 
       // Cursor bubble follows with a little lag
       if (cursor && finePointer) {

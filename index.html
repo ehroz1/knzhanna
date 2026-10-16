@@ -17,11 +17,12 @@
   <link rel="canonical" href="https://knzhanna.picta.cc/">
   <meta name="format-detection" content="telephone=no">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap">
+  <link rel="preload" href="assets/fonts/inter-tight-latin-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.className = 'js';</script>
+  <script>
+    document.documentElement.className = 'js';
+    try { if (sessionStorage.getItem('seen-loader')) document.documentElement.classList.add('no-loader'); } catch (e) {}
+  </script>
 </head>
 <body class="is-loading">
 
@@ -51,7 +52,7 @@
     <div class="menu-curve"></div>
     <div class="menu-inner">
       <div>
-        <h6 class="eyebrow">Navigation</h6>
+        <p class="eyebrow">Navigation</p>
         <div class="menu-stripe"></div>
         <ul class="menu-links">
           <li style="--i:0"><a class="js-menu-close" href="#home">Home</a></li>
@@ -61,7 +62,7 @@
         </ul>
       </div>
       <div class="menu-socials">
-        <h6 class="eyebrow">Socials</h6>
+        <p class="eyebrow">Socials</p>
         <ul>
           <li><a class="link" href="https://t.me/knzhanna" target="_blank" rel="noopener">Telegram</a></li>
           <li><a class="link" href="https://wa.me/77474225683" target="_blank" rel="noopener">WhatsApp</a></li>
@@ -80,10 +81,14 @@
   <main>
     <!-- Hero -->
     <header class="hero" id="home">
+      <h1 class="sr-only">Zhanna Kinzhalinova — Editor at weproject.media</h1>
       <div class="hero-photo">
         <div class="hero-photo-inner">
-          <!-- PHOTO: drop the portrait into assets/photo.jpg -->
-          <img src="assets/photo.jpg" alt="Zhanna Kinzhalinova" onerror="document.documentElement.classList.add('no-photo')">
+          <picture>
+            <source type="image/avif" srcset="assets/photo-640.avif 640w, assets/photo-960.avif 960w, assets/photo-1200.avif 1200w" sizes="(min-width: 1024px) 62vw, (orientation: portrait) 66vh, 100vw">
+            <source type="image/webp" srcset="assets/photo-640.webp 640w, assets/photo-960.webp 960w, assets/photo-1200.webp 1200w" sizes="(min-width: 1024px) 62vw, (orientation: portrait) 66vh, 100vw">
+            <img src="assets/photo.jpg" width="1200" height="1800" alt="Zhanna Kinzhalinova" fetchpriority="high" onerror="document.documentElement.classList.add('no-photo')">
+          </picture>
           <svg class="photo-placeholder" viewBox="0 0 400 520" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
             <circle cx="200" cy="190" r="92"/>
             <path d="M24 520c0-118 79-196 176-196s176 78 176 196z"/>
@@ -120,10 +125,10 @@
         <h2>Editor at<br><a class="u-link" href="https://weproject.media" target="_blank" rel="noopener">weproject.media</a></h2>
       </div>
 
-      <div class="hero-name" aria-label="Zhanna Kinzhalinova">
+      <div class="hero-name" aria-hidden="true">
         <div class="hero-name-rise">
-          <div class="marquee-track" aria-hidden="true">
-            <h1 class="marquee-item">Zhanna Kinzhalinova<span class="sep">—</span></h1>
+          <div class="marquee-track">
+            <p class="marquee-item">Zhanna Kinzhalinova<span class="sep">—</span></p>
             <p class="marquee-item">Zhanna Kinzhalinova<span class="sep">—</span></p>
           </div>
         </div>
@@ -133,7 +138,7 @@
     <!-- Contacts -->
     <section class="contacts section" id="contacts">
       <div class="container">
-        <h6 class="eyebrow">Contacts</h6>
+        <h2 class="eyebrow">Contacts</h2>
         <ul class="contact-list">
           <li data-reveal>
             <a class="contact-row" href="https://t.me/knzhanna" target="_blank" rel="noopener" data-cursor="Write">
@@ -202,7 +207,10 @@
           <div class="footer-head">
             <h2>
               <span class="footer-avatar">
-                <img src="assets/avatar.jpg" alt="" onerror="this.remove()">
+                <picture>
+                  <source type="image/webp" srcset="assets/avatar.webp">
+                  <img src="assets/avatar.jpg" width="200" height="200" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+                </picture>
                 <span>ZK</span>
               </span>Let’s work<br>together
             </h2>
@@ -257,11 +265,11 @@
 
         <div class="footer-bottom">
           <div>
-            <h6 class="eyebrow">Version</h6>
+            <p class="eyebrow">Version</p>
             <p><span class="js-year">2026</span> © Edition</p>
           </div>
           <div>
-            <h6 class="eyebrow">Socials</h6>
+            <p class="eyebrow">Socials</p>
             <ul>
               <li><a class="link magnetic" data-strength="12" href="https://t.me/knzhanna" target="_blank" rel="noopener">Telegram</a></li>
               <li><a class="link magnetic" data-strength="12" href="https://wa.me/77474225683" target="_blank" rel="noopener">WhatsApp</a></li>
